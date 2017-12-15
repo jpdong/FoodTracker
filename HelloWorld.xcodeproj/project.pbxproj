@@ -7,7 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5BEEB2E049E441C28F57B5B6 /* GirlResponseEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BEEBB62B7545424A2BB5A03 /* GirlResponseEntity.swift */; };
 		5BEEB61A3B397AD2F34D9B29 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 5BEEB9E50565183E92EF1345 /* Podfile */; };
+		5BEEBDFA9D9343194EB008B8 /* Girl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BEEB86734D3D76C8FC81680 /* Girl.swift */; };
 		7544A13BD70B4CB729B6488A /* Pods_HelloWorld.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71EC3E5AA5691DD1B1536B40 /* Pods_HelloWorld.framework */; };
 		8E0C447E1FDE39A800CC2608 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0C447D1FDE39A800CC2608 /* AppDelegate.swift */; };
 		8E0C44801FDE39A800CC2608 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0C447F1FDE39A800CC2608 /* ViewController.swift */; };
@@ -43,7 +45,9 @@
 
 /* Begin PBXFileReference section */
 		4E210393F536DAC25FE5CB7A /* Pods-HelloWorld.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HelloWorld.release.xcconfig"; path = "Pods/Target Support Files/Pods-HelloWorld/Pods-HelloWorld.release.xcconfig"; sourceTree = "<group>"; };
+		5BEEB86734D3D76C8FC81680 /* Girl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Girl.swift; sourceTree = "<group>"; };
 		5BEEB9E50565183E92EF1345 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		5BEEBB62B7545424A2BB5A03 /* GirlResponseEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GirlResponseEntity.swift; sourceTree = "<group>"; };
 		71EC3E5AA5691DD1B1536B40 /* Pods_HelloWorld.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HelloWorld.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8ACD0232705A35B7F8BA8396 /* Pods-HelloWorld.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HelloWorld.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HelloWorld/Pods-HelloWorld.debug.xcconfig"; sourceTree = "<group>"; };
 		8E0C447A1FDE39A800CC2608 /* HelloWorld.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HelloWorld.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -136,18 +140,16 @@
 		8E0C447C1FDE39A800CC2608 /* HelloWorld */ = {
 			isa = PBXGroup;
 			children = (
+				8ED2A60D1FE3A058003F92DB /* network */,
+				8ED2A60C1FE37CF0003F92DB /* view */,
+				8ED2A60B1FE37A02003F92DB /* controller */,
+				8ED2A60A1FE379F0003F92DB /* model */,
 				8E0C447D1FDE39A800CC2608 /* AppDelegate.swift */,
 				8E0C447F1FDE39A800CC2608 /* ViewController.swift */,
 				8E0C44811FDE39A800CC2608 /* Main.storyboard */,
 				8E0C44841FDE39A800CC2608 /* Assets.xcassets */,
 				8E0C44861FDE39A800CC2608 /* LaunchScreen.storyboard */,
 				8E0C44891FDE39A800CC2608 /* Info.plist */,
-				8EA405051FE121E400E0F069 /* MealViewController.swift */,
-				8EA405071FE1508700E0F069 /* RatingControl.swift */,
-				8E6DE7001FE2291E003559CC /* Meal.swift */,
-				8E6DE7021FE249F2003559CC /* MealTableViewCell.swift */,
-				8E6DE7041FE24F17003559CC /* MealTableViewController.swift */,
-				8E6DE7061FE2A854003559CC /* LifeCycleLogViewController.swift */,
 			);
 			path = HelloWorld;
 			sourceTree = "<group>";
@@ -168,6 +170,42 @@
 				8E0C449F1FDE39A800CC2608 /* Info.plist */,
 			);
 			path = HelloWorldUITests;
+			sourceTree = "<group>";
+		};
+		8ED2A60A1FE379F0003F92DB /* model */ = {
+			isa = PBXGroup;
+			children = (
+				8E6DE7001FE2291E003559CC /* Meal.swift */,
+				5BEEB86734D3D76C8FC81680 /* Girl.swift */,
+				5BEEBB62B7545424A2BB5A03 /* GirlResponseEntity.swift */,
+			);
+			path = model;
+			sourceTree = "<group>";
+		};
+		8ED2A60B1FE37A02003F92DB /* controller */ = {
+			isa = PBXGroup;
+			children = (
+				8E6DE7061FE2A854003559CC /* LifeCycleLogViewController.swift */,
+				8E6DE7041FE24F17003559CC /* MealTableViewController.swift */,
+				8EA405051FE121E400E0F069 /* MealViewController.swift */,
+			);
+			path = controller;
+			sourceTree = "<group>";
+		};
+		8ED2A60C1FE37CF0003F92DB /* view */ = {
+			isa = PBXGroup;
+			children = (
+				8EA405071FE1508700E0F069 /* RatingControl.swift */,
+				8E6DE7021FE249F2003559CC /* MealTableViewCell.swift */,
+			);
+			path = view;
+			sourceTree = "<group>";
+		};
+		8ED2A60D1FE3A058003F92DB /* network */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = network;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -312,12 +350,20 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-HelloWorld/Pods-HelloWorld-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/HandyJSON/HandyJSON.framework",
 				"${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework",
+				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
+				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HandyJSON.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -372,6 +418,8 @@
 				8EA405061FE121E400E0F069 /* MealViewController.swift in Sources */,
 				8E0C44801FDE39A800CC2608 /* ViewController.swift in Sources */,
 				8E0C447E1FDE39A800CC2608 /* AppDelegate.swift in Sources */,
+				5BEEBDFA9D9343194EB008B8 /* Girl.swift in Sources */,
+				5BEEB2E049E441C28F57B5B6 /* GirlResponseEntity.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
