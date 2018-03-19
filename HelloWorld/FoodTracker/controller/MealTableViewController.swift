@@ -11,15 +11,19 @@ import os.log
 import Alamofire
 import HandyJSON
 import Kingfisher
+import CoreData
 
 class MealTableViewController: UITableViewController {
 
     var meals = [Meal]()
     var girls = [Girl]()
+    var loadMoreControl:RefreshControl?
+    var currentPage:Int = 1
 
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.leftBarButtonItem = editButtonItem
+        loadMoreControl = RefreshControl(scrollView:self.tableView, refreshBlock:{self.beginRefreshing()}, loadmoreBlock: {self.beginLoadmore()})
         loadSampleMeals()
         loadData()
     }
@@ -29,6 +33,28 @@ class MealTableViewController: UITableViewController {
     }
 
     // MARK: - Table view data source
+
+    func beginRefreshing(){
+        print("BeginRefreshing")
+        self.delay(delayTime:1.5, closure:{
+            Thread.sleep(forTimeInterval:1.5)
+            self.loadMoreControl!.endRefreshing()
+        })
+    }
+
+    func beginLoadmore(){
+        print("dropViewDidBeginLoadmore")
+        self.currentPage +=  1
+        self.delay(delayTime:1.5, closure:{
+            //Thread.sleep(forTimeInterval:1.5)
+            self.loadData()
+            //self.loadMoreControl!.endLoadingmore()
+        })
+    }
+
+    func delay(delayTime:Double, closure:@escaping()->()) {
+        DispatchQueue.main.async(execute: closure)
+    }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -72,6 +98,7 @@ class MealTableViewController: UITableViewController {
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
+        segue.destination.hidesBottomBarWhenPushed = true
         switch segue.identifier ?? "" {
         case "AddItem":
             print("AddItem")
@@ -120,9 +147,18 @@ class MealTableViewController: UITableViewController {
         return true
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        Log("viewWillAppear")
+        //hidesBottomBarWhenPushed = false
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        Log("viewDidDisappear")
+    }
+    
     func createTableViewFooter() {
         tableView.tableFooterView = nil
-        tableFooterView.frame = CGRectMake(0,0,tableView.bounds.size.width, 60)
+        tableView.tableFooterView!.frame = CGRect(x:0,y:0,width:tableView.bounds.size.width, height:60)
         
     }
 
@@ -138,8 +174,12 @@ class MealTableViewController: UITableViewController {
     }
 
     func loadData() {
+        let TAG = "tag"
+        Log("hello world")
         testJson()
-        Alamofire.request("http://gank.io/api/data/%E7%A6%8F%E5%88%A9/10/1").responseJSON(completionHandler: {
+        testThread()
+        testCoreData()
+        Alamofire.request("http://gank.io/api/data/%E7%A6%8F%E5%88%A9/10/\(currentPage)").responseJSON(completionHandler: {
             response in
             switch response.result{
             case .success(let value):
@@ -148,21 +188,90 @@ class MealTableViewController: UITableViewController {
                     print("Data:\(utf8Text)")
                     if let response = JSONDeserializer<GirlResponseEntity>.deserializeFrom(json: utf8Text ){
                         var girlList:[Girl]! = response.results
+                        var showList = Array<Meal>()
                         for(girl) in girlList{
                             self.girls.append(girl)
-                            self.meals.append(Meal(name:girl.who,imageUrl:girl.url,rating:3)!)
+                            showList.append(Meal(name:girl.who,imageUrl:girl.url,rating:3)!)
                         }
+                        self.meals += showList
                         print("girls:\(girlList)")
+                        self.loadMoreControl!.endLoadingmore()
                         self.tableView.reloadData()
+                        
                 }
                 
             }
 
             case .failure(let error):
                 print(error)
+                self.loadMoreControl!.endLoadingmore()
             }
         })
     }
+
+    private func testCoreData() {
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        let noodles = NSEntityDescription.insertNewObject(forEntityName:"MealData", into:context) as! MealData
+        noodles.name = "王牌杂酱面"
+        noodles.id = UUID().uuidString
+        print("mealdata insert:\(noodles.id)")
+        noodles.rating = 5
+        do {
+            try context.save()
+            print("save meal success")
+        } catch {
+            print("save meal fail")
+        }
+        let fetchRequest = NSFetchRequest<MealData>(entityName:"MealData")
+//        fetchRequest.fetchLimit = 10
+//        fetchRequest.fetchOffset = 0
+//        let predicate = NSPredicate(format:"*")
+//        fetchRequest.predicate = predicate
+        do {
+            let fetchedObjects = try context.fetch(fetchRequest)
+            for info in fetchedObjects{
+                print("mealdata:\(info.name) \(info.rating) \(info.id)")
+//                info.rating += 1;
+//                try context.save()
+                if (info.id == nil) {
+                    context.delete(info)
+                }
+            }
+            try context.save()
+        } catch{
+            fatalError("query fail")
+        }
+        
+        
+
+    }
+
+    private func testThread() {
+        DispatchQueue.main.async(execute: {
+            print("main async ,\(Thread.current)")
+        })
+        print("ync 1")
+//        DispatchQueue.main.sync(execute: {
+//            print("main sync ,\(Thread.current)")
+//        })
+        DispatchQueue.global().sync(execute: {
+            print("global sync ,\(Thread.current)")
+        })
+        print("ync 2")
+        DispatchQueue.global().async(execute: {
+            print("global async ,\(Thread.current)")
+        })
+        print("ync 3")
+    }
+
+    override func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        print("scrollViewDidEndDecelerating")
+    }
+    
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        //print("scrollViewDidScroll")
+    }
+
 
 
     /*
